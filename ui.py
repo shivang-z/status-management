@@ -4,6 +4,7 @@ import datetime as dt
 import pandas as pd
 import streamlit as st
 
+from zoneinfo import ZoneInfo
 from auth import AuthService
 from config import AppConfig
 from data_store import CSVDataStore
@@ -174,7 +175,7 @@ class AppUI:
                     <div style="font-size:18px; font-weight:900;">{self.cfg.app_title}</div>
                     <div class="muted">Logged in as <b>{user}</b> {admin_badge}</div>
                 </div>
-                <div class="pill">Data Source: CSV (POC) • DB-ready</div>
+                <div class="pill">Data Source: CSV (POC)</div>
             </div>
             """,
             unsafe_allow_html=True,
@@ -384,7 +385,7 @@ class AppUI:
 
                     # Only update timestamp if WorkStatus changed
                     if old_status != new_status:
-                        df_full.loc[idx, "LastUpdatedAt"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                        df_full.loc[idx, "LastUpdatedAt"] = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%Y-%m-%d %H:%M:%S")
                         rows_changed += 1
 
                     df_full.loc[idx, "WorkStatus"] = new_status
